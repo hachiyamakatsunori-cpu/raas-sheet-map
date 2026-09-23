@@ -169,6 +169,30 @@
   .ev .body b{color:var(--ink);}
   .ev code{font-family:var(--mono);font-size:11px;background:var(--surface);padding:1px 5px;border-radius:4px;color:var(--ink);}
   .sys th:nth-child(1){min-width:150px}
+
+  .rule{
+    margin:0 0 20px;padding:9px 13px;border-radius:7px;font-size:12px;line-height:1.7;
+    background:var(--surface-2);border:1px dashed var(--line-2);color:var(--ink-3);
+  }
+  .fname{
+    display:inline;font-weight:700;color:var(--ink);font-size:13px;
+  }
+  .gate .fname{display:block;margin-bottom:5px;font-size:13.5px;line-height:1.5;}
+  .tname{
+    display:inline-block;font-family:var(--mono);font-size:10.5px;line-height:1.5;
+    padding:1px 6px;margin:1px 2px 1px 0;border-radius:4px;
+    background:color-mix(in srgb,var(--c-jitsu) 14%,transparent);
+    color:var(--c-jitsu);white-space:nowrap;
+  }
+  .cell{
+    font-family:var(--mono);font-size:10.5px;padding:1px 5px;border-radius:4px;
+    background:var(--surface-2);color:var(--ink-2);white-space:nowrap;
+  }
+  .gate .loc{display:block;margin-bottom:7px;line-height:1.9;}
+  .kpi td.f{font-weight:700;font-size:12px;line-height:1.5;}
+  .kpi td.c{font-family:var(--mono);font-size:11px;color:var(--ink-2);white-space:nowrap;}
+  .kpi th:nth-child(2){min-width:150px}
+  .sys th:nth-child(2){min-width:170px}
   .kpi-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;}
   footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink-3);}
 </style>
@@ -193,83 +217,197 @@
       IMPORTRANGE で結ばれた22本の線（682セル）は、シート同士でデータを配送しているだけで、
       外部から新しい数字を取ってきているわけではありません。
     </p>
+    <p class="rule">
+      以下、場所は <span class="fname">ファイル名</span> › <span class="tname">タブ名</span> › <span class="cell">セル範囲</span>
+      の順で表記します。Googleスプレッドシートの「ファイル」と、その中の「シート（タブ）」を区別するためです。
+    </p>
 
     <h3>データの入口は、この4つだけ</h3>
     <div class="gates">
+
       <div class="gate">
-        <span class="num">01 ─ 手入力</span>
-        <span class="name">第25期Raas事業部PL管理シート</span>
-        <span class="detail">店舗・拠点列（AD〜BU の50列）が唯一の入力層。売上から営業利益までの全科目とKPIを人が月次で入力する。</span>
+        <span class="num">01 ─ 手入力（月次PL）</span>
+        <span class="fname">第25期Raas事業部PL管理シート</span>
+        <span class="loc"><span class="tname">5月（本タブ）</span>〜<span class="tname">4月（本タブ）</span>（12枚）
+          › <span class="cell">AD9:BU277</span></span>
+        <span class="detail">店舗・拠点50列が唯一の入力層。売上から営業利益までの全科目を人が月次で入力する。KPI行（R291買取点数／R292買取金額／R297承認金額／R312承認点数）も同じ列に手入力。</span>
         <span class="url">1T_fMdP… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
         <span class="size">非ゼロ 22,058 セル</span>
       </div>
+
       <div class="gate">
-        <span class="num">02 ─ 貼り付け</span>
-        <span class="name">目標管理ｼｰﾄ_VGP＆フクウロ店舗課</span>
-        <span class="detail">「◯◯貼付」と名付けられた6タブが、POS・買取・棚の各システム出力の受け皿。西SHOP／東SHOPにも同型の貼付タブがある。</span>
+        <span class="num">02 ─ 貼り付け（買取・POS）</span>
+        <span class="fname">目標管理ｼｰﾄ_VGP＆フクウロ店舗課</span>
+        <span class="loc"><span class="tname">POS_買取商品取引明細貼付</span>
+          <span class="tname">フクウロ買取貼付</span>
+          <span class="tname">カウンター0買取貼付</span>
+          <span class="tname">ソフマップ買取貼付</span></span>
+        <span class="detail">買取・POSの明細を各システムから貼り込む受け皿。いずれも27,493〜27,494行。</span>
         <span class="url">1H3UxvE… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
-        <span class="size">283,977 セル（6タブ計）</span>
+        <span class="size">228,944 セル（4タブ計）</span>
       </div>
+
       <div class="gate">
-        <span class="num">02 ─ 貼り付け</span>
-        <span class="name">25期 Raas事業部 ネット管理</span>
-        <span class="detail">日別実績ブロック（VGP／SHOP × 今期／前年の4区画）。棚データの日次集計をそのまま貼り込む。</span>
-        <span class="url">1CHDr8i… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
-        <span class="size">定数 1,396,307 セル（全体の96%）</span>
+        <span class="num">02 ─ 貼り付け（棚＝在庫）</span>
+        <span class="fname">目標管理ｼｰﾄ_VGP＆フクウロ店舗課 ／ 西SHOP ／ 東SHOP</span>
+        <span class="loc"><span class="tname">棚データ貼付</span>
+          <span class="tname">棚データ貼付(前年比)</span>
+          <span class="tname">棚データ貼付(前年比)VGP</span>（西・東のみ）</span>
+        <span class="detail">出品金額・承認金額・棚金額の日次集計。3ファイルすべてに同名タブがある。西・東はVGPの棚データも取り込む。</span>
+        <span class="url">16zox5y… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
+        <span class="url">19Mo_F2… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
+        <span class="size">VGPの棚データ貼付だけで 26,507 セル</span>
       </div>
+
+      <div class="gate">
+        <span class="num">02 ─ 貼り付け（日別実績）</span>
+        <span class="fname">25期 Raas事業部 ネット管理</span>
+        <span class="loc"><span class="tname">2025年5月</span>〜<span class="tname">2026年9月</span>（19枚）
+          › <span class="cell">R107〜R242</span></span>
+        <span class="detail">VGP／SHOP × 今期／前年の4区画に分かれた日別実績。棚データの日次集計をそのまま貼り込む（VGPの棚データ貼付と数値が一致）。</span>
+        <span class="url">1CHDr8i… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
+        <span class="size">定数 1,396,307 セル（このファイルの96%）</span>
+      </div>
+
       <div class="gate">
         <span class="num">03 ─ 人が置く目標値</span>
-        <span class="name">25期 Raas事業部 予実管理表 サマリ</span>
-        <span class="detail">「予算」タブが部門別×月次の予算マスタ。目標管理3本が計243セルで参照する。</span>
+        <span class="fname">25期 Raas事業部 予実管理表 サマリ</span>
+        <span class="loc"><span class="tname">予算</span> › <span class="cell">B1:AV1003</span></span>
+        <span class="detail">部門別×月次の予算マスタ（売上／原価／粗利／販管費／営業利益）。目標管理3本が計243セルで参照する。</span>
         <span class="url">1vgpgmX… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
         <span class="size">42タブ／数式 292,218</span>
       </div>
+
       <div class="gate">
         <span class="num">03 ─ 人が置く目標値</span>
-        <span class="name">25期 予算シュミレーション</span>
-        <span class="detail">ロール目標の供給元。目標管理3本が計95セルで参照。参照タブは「【VGP】ロール!」等。</span>
+        <span class="fname">25期 予算シュミレーション</span>
+        <span class="loc"><span class="tname">【VGP】ロール</span> ほか（参照元の数式から推定）</span>
+        <span class="detail">ロール目標の供給元。目標管理3本が計95セルで参照。VLOOKUPで対象月から列位置を引き当てる方式。</span>
         <span class="url">1_zXdSZ… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
         <span class="size">未取得（権限申請中）</span>
       </div>
+
       <div class="gate">
         <span class="num">04 ─ 手入力の台帳</span>
-        <span class="name">イベントカレンダー</span>
-        <span class="detail">2018年01月からの114タブ。モール別のイベント開催日とクーポンURLを人が記録。IMPORTRANGE・エラーともゼロ。</span>
+        <span class="fname">イベントカレンダー</span>
+        <span class="loc"><span class="tname">201801</span>〜<span class="tname">202609</span> ほか（114枚）</span>
+        <span class="detail">モール別のイベント開催日とクーポンURLを人が記録。IMPORTRANGE・エラーともゼロの純粋な台帳。</span>
         <span class="url">1iVb6ny… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
         <span class="size">114タブ／定数 28,051</span>
       </div>
+
       <div class="gate">
         <span class="num">04 ─ 手入力の台帳</span>
-        <span class="name">時間帯進捗表（西SHOP／東SHOP）</span>
-        <span class="detail">店舗タブ T11 から各11セルで参照。西・東で別ファイル。</span>
+        <span class="fname">時間帯進捗表（西SHOP用／東SHOP用の2ファイル）</span>
+        <span class="loc">参照元は各店舗タブ › <span class="cell">T11</span>（各11セル）</span>
+        <span class="detail">店舗ごとの時間帯別進捗。西・東で別ファイルに分かれている。いずれも未共有で中身は未確認。</span>
         <span class="url">1fAsUla… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
         <span class="url">1vBYoLt… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
         <span class="size">未取得（未共有）</span>
       </div>
+
       <div class="gate">
         <span class="num">04 ─ 手入力の台帳</span>
-        <span class="name">POS登録帳簿 ／ オシャレボ買取数値管理 ／ フクウロ3店 売上進捗表</span>
-        <span class="detail">VGPの🔑項目タブ C10・C11・D4〜D6 から参照される補助台帳。</span>
+        <span class="fname">【25期】POS登録帳簿 ／ 25期_オシャレボ買取数値管理 ／ フクウロ3店 売上進捗表</span>
+        <span class="loc">参照元は <span class="fname">VGP</span> › <span class="tname">総合POS取込</span> <span class="cell">A4:D4</span>、
+          <span class="tname">第二営業部オシャレボ課</span> <span class="cell">O44/T44</span>、各店舗タブ <span class="cell">T11</span></span>
+        <span class="detail">VGPの <span class="tname">🔑項目</span> タブ C10・C11・D4〜D6 にURLが登録された補助台帳。</span>
         <span class="url">1VtO9n6… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
         <span class="url">14QAUIK… <span style="opacity:.55">（社内限定：URLは配布版HTMLに記載）</span></span>
-        <span class="size">25タブ／8タブ／12・8・7タブ</span>
+        <span class="size">25タブ ／ 8タブ ／ 12・8・7タブ</span>
       </div>
+
     </div>
 
     <h3>KPIごとの源流</h3>
     <div class="kpi-wrap">
       <table class="kpi">
-        <thead><tr><th>KPI・指標</th><th>たどり着く先</th><th>入り方</th></tr></thead>
+        <thead><tr><th>KPI・指標</th><th>ファイル</th><th>タブ（シート）</th><th>セル範囲</th><th>入り方</th></tr></thead>
         <tbody>
-          <tr><td>売上・原価・粗利・販管費・営業利益（月次PL）</td><td>PL管理シート 店舗列 AD〜BU</td><td><span class="way h">手入力</span></td></tr>
-          <tr><td>承認金額・承認点数</td><td>PL管理シート R297 / R312</td><td><span class="way h">手入力</span></td></tr>
-          <tr><td>ネット売上の日次実績・月末着地</td><td>ネット管理 日別ブロック（VGP／SHOP × 今期／前年）</td><td><span class="way p">貼り付け</span></td></tr>
-          <tr><td>買取金額・買取点数</td><td>VGP フクウロ買取貼付（27,493行）／ PL管理 KPI②③</td><td><span class="way p">貼り付け</span> <span class="way h">手入力</span></td></tr>
-          <tr><td>棚（在庫）金額・点数・回転率</td><td>VGP 棚データ貼付（1001×1632）</td><td><span class="way p">貼り付け</span></td></tr>
-          <tr><td>予算・ロール目標・デッド目標</td><td>予算シュミレーション ／ 予実管理表サマリ「予算」タブ</td><td><span class="way t">人が置く</span></td></tr>
-          <tr><td>イベント数（モール施策）</td><td>イベントカレンダー（2018年01月〜の114タブ）</td><td><span class="way h">手入力</span></td></tr>
-          <tr><td>時間帯別の進捗</td><td>時間帯進捗表（西／東）</td><td><span class="way h">手入力</span></td></tr>
-          <tr><td>POS登録</td><td>POS登録帳簿（25タブ）</td><td><span class="way h">手入力</span></td></tr>
+          <tr>
+            <td>売上・原価・粗利・販管費・営業利益<br>（月次PL）</td>
+            <td class="f">第25期Raas事業部PL管理シート</td>
+            <td><span class="tname">5月（本タブ）</span>〜<span class="tname">4月（本タブ）</span></td>
+            <td class="c">AD9:BU277</td>
+            <td><span class="way h">手入力</span></td>
+          </tr>
+          <tr>
+            <td>承認金額・承認点数</td>
+            <td class="f">第25期Raas事業部PL管理シート</td>
+            <td>同上</td>
+            <td class="c">R297 / R312</td>
+            <td><span class="way h">手入力</span></td>
+          </tr>
+          <tr>
+            <td>買取金額・買取点数<br>（KPI表示用）</td>
+            <td class="f">第25期Raas事業部PL管理シート</td>
+            <td>同上</td>
+            <td class="c">R291 / R292</td>
+            <td><span class="way h">手入力</span></td>
+          </tr>
+          <tr>
+            <td>買取金額・買取点数<br>（明細の実体）</td>
+            <td class="f">目標管理ｼｰﾄ_VGP＆フクウロ店舗課</td>
+            <td><span class="tname">フクウロ買取貼付</span> <span class="tname">カウンター0買取貼付</span> <span class="tname">ソフマップ買取貼付</span></td>
+            <td class="c">A1:AJ27493</td>
+            <td><span class="way p">貼り付け</span></td>
+          </tr>
+          <tr>
+            <td>店頭の買取取引明細</td>
+            <td class="f">目標管理ｼｰﾄ_VGP＆フクウロ店舗課<br>／西SHOP／東SHOP</td>
+            <td><span class="tname">POS_買取商品取引明細貼付</span></td>
+            <td class="c">A1:AB27494</td>
+            <td><span class="way p">貼り付け</span></td>
+          </tr>
+          <tr>
+            <td>ネット売上の日次実績・月末着地</td>
+            <td class="f">25期 Raas事業部 ネット管理</td>
+            <td><span class="tname">2025年5月</span>〜<span class="tname">2026年9月</span></td>
+            <td class="c">R107〜R242</td>
+            <td><span class="way p">貼り付け</span></td>
+          </tr>
+          <tr>
+            <td>棚（在庫）金額・点数・回転率</td>
+            <td class="f">目標管理ｼｰﾄ_VGP＆フクウロ店舗課<br>／西SHOP／東SHOP</td>
+            <td><span class="tname">棚データ貼付</span> <span class="tname">棚データ貼付(前年比)</span></td>
+            <td class="c">A1:BGZ1001</td>
+            <td><span class="way p">貼り付け</span></td>
+          </tr>
+          <tr>
+            <td>予算（売上・原価・粗利・販管費・営業利益）</td>
+            <td class="f">25期 Raas事業部 予実管理表 サマリ</td>
+            <td><span class="tname">予算</span></td>
+            <td class="c">B1:AV1003</td>
+            <td><span class="way t">人が置く</span></td>
+          </tr>
+          <tr>
+            <td>ロール目標・デッド目標</td>
+            <td class="f">25期 予算シュミレーション</td>
+            <td><span class="tname">【VGP】ロール</span> ほか</td>
+            <td class="c">未取得</td>
+            <td><span class="way t">人が置く</span></td>
+          </tr>
+          <tr>
+            <td>イベント数（モール施策）</td>
+            <td class="f">イベントカレンダー</td>
+            <td><span class="tname">202609</span> など月次114枚</td>
+            <td class="c">—</td>
+            <td><span class="way h">手入力</span></td>
+          </tr>
+          <tr>
+            <td>時間帯別の進捗</td>
+            <td class="f">時間帯進捗表（西／東）</td>
+            <td class="c">未取得</td>
+            <td class="c">未取得</td>
+            <td><span class="way h">手入力</span></td>
+          </tr>
+          <tr>
+            <td>POS登録</td>
+            <td class="f">【25期】POS登録帳簿</td>
+            <td class="c">未取得（25タブ）</td>
+            <td class="c">—</td>
+            <td><span class="way h">手入力</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -282,78 +420,128 @@
       <div class="ev strong">
         <span class="rank">証拠 1</span>
         <span class="body"><b>タブ名に「貼付」と明記されている。</b>
-        <code>POS_買取商品取引明細貼付</code> <code>フクウロ買取貼付</code> <code>カウンター0買取貼付</code>
-        <code>ソフマップ買取貼付</code> <code>棚データ貼付</code> <code>棚データ貼付(前年比)</code>。
-        作成者自身が宣言しているので、ここは推定の余地がありません。</span>
+        <span class="fname">目標管理ｼｰﾄ_VGP＆フクウロ店舗課</span> に
+        <span class="tname">POS_買取商品取引明細貼付</span> <span class="tname">フクウロ買取貼付</span>
+        <span class="tname">カウンター0買取貼付</span> <span class="tname">ソフマップ買取貼付</span>
+        <span class="tname">棚データ貼付</span> <span class="tname">棚データ貼付(前年比)</span> の6タブ。
+        <span class="fname">西SHOP</span> と <span class="fname">東SHOP</span> にも
+        <span class="tname">POS_買取商品取引明細貼付</span> <span class="tname">棚データ貼付</span>
+        <span class="tname">棚データ貼付(前年比)VGP</span> がある。作成者自身の宣言なので推定の余地がありません。</span>
       </div>
       <div class="ev strong">
         <span class="rank">証拠 2</span>
-        <span class="body"><b>「データ貼付状況」タブで、貼り付け作業そのものが運用管理されている。</b>
-        日付×データ種別のマトリクスに <code>TRUE</code> / <code>FALSE</code> を記録し、
-        <b>担当者名</b>（森本・瀬本・山口・秋山／西SHOPは片山・土井）と
+        <span class="body"><b>貼り付け作業そのものが運用管理されている。</b>
+        <span class="fname">VGP＆フクウロ店舗課</span>・<span class="fname">西SHOP</span>・<span class="fname">東SHOP</span> の3ファイルすべてに
+        <span class="tname">データ貼付状況</span> タブがあり、日付×データ種別のマトリクスに
+        <span class="cell">TRUE</span>/<span class="cell">FALSE</span> を記録。
+        <b>担当者名</b>（VGP＝森本・瀬本・山口・秋山／西SHOP＝片山・土井）と
         <b>集計時間</b>（「前日分14時頃」「※毎週火曜日」）まで書かれています。
         人がやる作業として運用に組み込まれている動かぬ証拠です。</span>
       </div>
       <div class="ev">
         <span class="rank">証拠 3</span>
         <span class="body"><b>列ヘッダがシステム固有の語彙。</b>
-        <code>買取ID</code> <code>顧客ID</code> <code>管理番号</code> <code>店コード</code>
-        <code>取引区分</code> <code>POSデータ作成日</code> <code>値付け者</code> <code>キャンペーンコード</code>。
+        <span class="cell">買取ID</span> <span class="cell">顧客ID</span> <span class="cell">管理番号</span>
+        <span class="cell">店コード</span> <span class="cell">取引区分</span> <span class="cell">POSデータ作成日</span>
+        <span class="cell">値付け者</span> <span class="cell">キャンペーンコード</span>。
         人が表を作るときには生まれない列名です。</span>
       </div>
       <div class="ev">
         <span class="rank">証拠 4</span>
         <span class="body"><b>人手では打てない行数。</b>
-        買取・POS系の貼付タブはいずれも <b>27,493〜27,494行</b>。棚データ貼付は 1001×1632。</span>
+        買取・POS系の貼付タブはいずれも <b>27,493〜27,494行</b>。
+        <span class="tname">棚データ貼付</span> は 1001行×1632列。</span>
       </div>
       <div class="ev">
         <span class="rank">証拠 5</span>
         <span class="body"><b>機械出力特有の値の形。</b>
-        秒単位のタイムスタンプ（<code>2026/9/1 17:05</code>）、
-        ID体系（<code>U0105158</code> / <code>SU006202</code> / <code>208-902609010001</code>）、
-        そして <code>2.02E+12</code> ── 13桁の買取IDがCSV経由で指数表記に崩れた跡です。</span>
+        秒単位のタイムスタンプ（<span class="cell">2026/9/1 17:05</span>）、
+        ID体系（<span class="cell">U0105158</span> / <span class="cell">SU006202</span> / <span class="cell">208-902609010001</span>）、
+        そして <span class="cell">2.02E+12</span> ── 13桁の買取IDがCSV経由で指数表記に崩れた跡です。</span>
       </div>
     </div>
 
     <p class="a" style="margin:16px 0 0">
-      逆に<b>手入力</b>と判定した根拠は、
-      隣接セルの注記（<code>←入力</code> <code>←変更可</code> <code>予算入力→</code> <code>（月変更）👉</code>）、
-      セル参照を一切含まない合成式（<code>=1004+795</code>、PL管理に501セル）、
-      そして散在性です。PL管理の店舗列は239,693セルのうち<b>非ゼロが22,058（9%）しかなく</b>、
+      逆に<b>手入力</b>と判定した根拠は、隣接セルの注記
+      （<span class="cell">←入力</span> <span class="cell">←変更可</span> <span class="cell">予算入力→</span> <span class="cell">（月変更）👉</span>）、
+      セル参照を一切含まない合成式（<span class="cell">=1004+795</span>、
+      <span class="fname">PL管理シート</span> に501セル）、そして散在性です。
+      <span class="fname">PL管理シート</span> の店舗列は239,693セルのうち<b>非ゼロが22,058（9%）しかなく</b>、
       枠だけ用意して必要な箇所を人が埋める形になっています。
     </p>
 
     <h3>どのシステムから貼り付けているのか</h3>
     <div class="kpi-wrap">
       <table class="kpi sys">
-        <thead><tr><th>貼付タブ</th><th>元システム</th><th>判別の決め手</th><th>担当</th><th>頻度</th></tr></thead>
+        <thead><tr><th>ファイル</th><th>タブ（シート）</th><th>元システム</th><th>判別の決め手</th><th>担当</th><th>頻度</th></tr></thead>
         <tbody>
-          <tr><td>POS_買取商品取引明細貼付</td><td><b>店頭POS</b></td><td>店コード(7408)／店舗ID(208)／管理番号(208-902609010001)／取引区分。西SHOPの貼付状況では「POSデータ」と表記</td><td>片山・土井<br><span class="way">西SHOP</span></td><td>日次</td></tr>
-          <tr><td>フクウロ買取貼付</td><td><b>フクウロ 宅配買取</b></td><td>買取ID／顧客ID(U0…)／登録日・入庫日・査定日・返送日・振込日／値付け者／キャンペーンコード(FOB2608)</td><td>森本</td><td>日次<br>前日分14時頃</td></tr>
-          <tr><td>カウンター0買取貼付</td><td><b>カウンター0 宅配買取</b></td><td>フクウロと同一の列構成。顧客IDも U0… 系で共通基盤と判断</td><td>森本＆瀬本</td><td>日次</td></tr>
-          <tr><td>ソフマップ買取貼付</td><td><b>ソフマップ提携買取</b></td><td>顧客IDが <code>SU006202</code> と別体系／「POSデータ作成日」「キャンペーン記号」という独自列</td><td>山口</td><td><b>毎週火曜</b></td></tr>
-          <tr><td>棚データ貼付／(前年比)</td><td><b>在庫（棚）管理</b></td><td>出品金額・承認金額・棚金額の日次集計。<b>ネット管理の日別ブロックと数値が一致</b>（9/2 出品金額 13,396,100・出品原価 3,284,661）</td><td>森本</td><td>日次</td></tr>
-          <tr><td>（総合GRECS）</td><td><b>GRECS</b></td><td>データ貼付状況のH列に枠だけ存在。全日 <code>FALSE</code> ＝まだ運用されていない</td><td>秋山</td><td>未運用</td></tr>
+          <tr>
+            <td class="f">VGP＆フクウロ店舗課<br>西SHOP／東SHOP</td>
+            <td><span class="tname">POS_買取商品取引明細貼付</span></td>
+            <td><b>店頭POS</b></td>
+            <td>店コード(7408)／店舗ID(208)／管理番号(208-902609010001)／取引区分。西SHOPの貼付状況では「POSデータ」と表記</td>
+            <td>片山・土井<br><span class="way">西SHOP</span></td><td>日次</td>
+          </tr>
+          <tr>
+            <td class="f">VGP＆フクウロ店舗課</td>
+            <td><span class="tname">フクウロ買取貼付</span></td>
+            <td><b>フクウロ 宅配買取</b></td>
+            <td>買取ID／顧客ID(U0…)／登録日・入庫日・査定日・返送日・振込日／値付け者／キャンペーンコード(FOB2608)</td>
+            <td>森本</td><td>日次<br>前日分14時頃</td>
+          </tr>
+          <tr>
+            <td class="f">VGP＆フクウロ店舗課</td>
+            <td><span class="tname">カウンター0買取貼付</span></td>
+            <td><b>カウンター0 宅配買取</b></td>
+            <td>フクウロと同一の列構成。顧客IDも U0… 系で共通基盤と判断</td>
+            <td>森本＆瀬本</td><td>日次</td>
+          </tr>
+          <tr>
+            <td class="f">VGP＆フクウロ店舗課</td>
+            <td><span class="tname">ソフマップ買取貼付</span></td>
+            <td><b>ソフマップ提携買取</b></td>
+            <td>顧客IDが <span class="cell">SU006202</span> と別体系／独自列「POSデータ作成日」「キャンペーン記号」</td>
+            <td>山口</td><td><b>毎週火曜</b></td>
+          </tr>
+          <tr>
+            <td class="f">VGP＆フクウロ店舗課<br>西SHOP／東SHOP</td>
+            <td><span class="tname">棚データ貼付</span><br><span class="tname">棚データ貼付(前年比)</span></td>
+            <td><b>在庫（棚）管理</b></td>
+            <td>出品・承認・棚の日次集計。<b><span class="fname">ネット管理</span> の日別ブロックと数値が一致</b>（9/2 出品金額 13,396,100・出品原価 3,284,661）</td>
+            <td>森本</td><td>日次</td>
+          </tr>
+          <tr>
+            <td class="f">VGP＆フクウロ店舗課</td>
+            <td><span class="tname">データ貼付状況</span> H列</td>
+            <td><b>総合GRECS</b></td>
+            <td>枠だけ存在し全日 <span class="cell">FALSE</span> ＝まだ運用されていない</td>
+            <td>秋山</td><td>未運用</td>
+          </tr>
         </tbody>
       </table>
     </div>
     <p class="a" style="margin:14px 0 0">
-      ネット管理の日別実績にはタブ名の「貼付」表記も貼付状況タブもありませんが、
-      <b>VGPの棚データ貼付と数値が一致する</b>ため、同じ在庫管理システムの出力を別ファイルにも貼っていると判断できます。
+      <span class="fname">25期 Raas事業部 ネット管理</span> の日別実績には「貼付」表記も
+      <span class="tname">データ貼付状況</span> タブもありませんが、
+      <b><span class="fname">VGP＆フクウロ店舗課</span> › <span class="tname">棚データ貼付</span> と数値が一致する</b>ため、
+      同じ在庫管理システムの出力を別ファイルにも貼っていると判断できます。
       買取は<b>自社宅配（フクウロ／カウンター0）・ソフマップ提携・店頭POS の3系統</b>に分かれており、
       それぞれ別のシステムから、別の担当者が、別の頻度で貼り込んでいます。
     </p>
 
     <h3>この構造が意味すること</h3>
     <p class="a" style="margin-bottom:0">
-      数式は取得できた8ファイルだけで <b>902,583本</b>ありますが、<b>そのすべては「加工」であって元データではありません</b>。
+      数式は取得できた8ファイルだけで <b>902,583本</b>ありますが、
+      <b>そのすべては「加工」であって元データではありません</b>。
       同じ数字が下流へ配送される作りなので、<b>元を直せば全体に伝播する</b>一方、
       <b>入口で間違えれば全部が間違います</b>。
-      とくにPL管理シートには <code>=1004+795</code> のようにセル参照を一切含まない合成式が501セルあり、
+      とくに <span class="fname">第25期Raas事業部PL管理シート</span> には
+      <span class="cell">=1004+795</span> のようにセル参照を一切含まない合成式が501セルあり、
       これは<b>スプレッドシートの外に元資料が存在する</b>ことの痕跡です。
       数字の裏取りが必要になったときの調査は、まずこの入口4つに当たることになります。
     </p>
   </section>
+
 
   <div class="hint">
     <b>ノードにマウスを乗せる</b>と、そのファイルに出入りする矢印だけが残ります。クリックで固定、もう一度クリックで解除。
