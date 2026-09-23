@@ -96,6 +96,60 @@
   td code{font-family:var(--mono);font-size:11.5px;}
   .tag{font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:99px;white-space:nowrap;background:var(--surface-2);color:var(--ink-3);}
   .tag.ng{background:color-mix(in srgb,var(--c-warn) 16%,transparent);color:var(--c-warn);}
+
+  /* --- 冒頭サマリー --- */
+  .summary{
+    margin:26px 0 8px;padding:22px 24px;border-radius:12px;
+    background:var(--surface);border:1px solid var(--line);
+    border-top:3px solid var(--c-jitsu);
+  }
+  .summary .q{
+    margin:0 0 6px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-3);
+  }
+  .summary h2{margin:0 0 14px;font-size:19px;line-height:1.5;}
+  .summary .a{
+    margin:0 0 20px;font-size:15px;line-height:1.85;color:var(--ink-2);max-width:72ch;
+  }
+  .summary .a b{color:var(--ink);}
+  .summary h3{
+    margin:22px 0 10px;font-size:13px;font-weight:700;letter-spacing:.04em;
+    padding-left:10px;border-left:3px solid var(--c-jitsu);
+  }
+  .gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:10px;margin:0 0 4px;}
+  .gate{border:1px solid var(--line);border-radius:9px;padding:12px 14px;background:var(--surface-2);}
+  .gate .num{
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--c-jitsu);
+    display:block;margin-bottom:4px;
+  }
+  .gate .name{font-weight:700;font-size:13.5px;display:block;margin-bottom:5px;}
+  .gate .detail{font-size:11.5px;color:var(--ink-3);line-height:1.6;}
+  .gate .size{
+    display:block;margin-top:7px;font-family:var(--mono);font-size:10.5px;
+    color:var(--ink-2);font-variant-numeric:tabular-nums;
+  }
+  .note-strong{
+    margin:18px 0 0;padding:12px 15px;border-radius:8px;font-size:13px;line-height:1.75;
+    background:color-mix(in srgb,var(--c-warn) 9%,transparent);
+    border:1px solid color-mix(in srgb,var(--c-warn) 32%,transparent);color:var(--ink-2);
+  }
+  .note-strong b{color:var(--ink);}
+  .kpi{width:100%;border-collapse:collapse;font-size:12.5px;min-width:520px;}
+  .kpi th{
+    text-align:left;padding:8px 12px;background:var(--surface-2);color:var(--ink-3);
+    font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:500;
+    border-bottom:1px solid var(--line);white-space:nowrap;
+  }
+  .kpi td{padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .kpi tr:last-child td{border-bottom:none;}
+  .way{
+    font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:99px;white-space:nowrap;
+    background:var(--surface-2);color:var(--ink-3);
+  }
+  .way.h{background:color-mix(in srgb,var(--c-vgp) 17%,transparent);color:var(--c-vgp);}
+  .way.p{background:color-mix(in srgb,var(--c-net) 15%,transparent);color:var(--c-net);}
+  .way.t{background:color-mix(in srgb,var(--c-all) 15%,transparent);color:var(--c-all);}
+  .kpi-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:9px;}
   footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink-3);}
 </style>
 </head>
@@ -108,6 +162,80 @@
     データが流れるのは<b>矢印の逆向き</b>で、下段のファイルほど数値の発生源に近くなります。
     線の太さは参照しているセル数、破線はアクセスできていないファイルを表します。
   </p>
+
+
+  <section class="summary">
+    <p class="q">この図が答えていること</p>
+    <h2>各シートのKPIは、元をたどるとどこから来ているのか</h2>
+    <p class="a">
+      19ファイル・73タブを全セル走査した結果、<b>データの入口は4種類しかありませんでした</b>。
+      そしてそのすべてが<b>人の手を経由しています</b>。
+      IMPORTRANGE で結ばれた22本の線（682セル）は、シート同士でデータを配送しているだけで、
+      外部から新しい数字を取ってきているわけではありません。
+    </p>
+
+    <h3>データの入口は、この4つだけ</h3>
+    <div class="gates">
+      <div class="gate">
+        <span class="num">01</span>
+        <span class="name">手入力（月次PL）</span>
+        <span class="detail">PL管理シートの店舗・拠点列（AD〜BU の50列）。売上から営業利益までの全科目とKPIを、人が月次で入力する。</span>
+        <span class="size">非ゼロ 22,058 セル</span>
+      </div>
+      <div class="gate">
+        <span class="num">02</span>
+        <span class="name">貼り付け（外部システム出力）</span>
+        <span class="detail">ネット管理の日別実績、VGPのフクウロ買取貼付・POS明細・棚データ貼付。CSV等を人が貼り込む。</span>
+        <span class="size">ネット管理 1,396,307 ＋ VGP 283,977</span>
+      </div>
+      <div class="gate">
+        <span class="num">03</span>
+        <span class="name">人が置く目標値</span>
+        <span class="detail">予算シュミレーション（ロール目標）と、予実管理表サマリの「予算」タブ（部門別×月次の予算）。</span>
+        <span class="size">338 セルから参照される</span>
+      </div>
+      <div class="gate">
+        <span class="num">04</span>
+        <span class="name">手入力の台帳</span>
+        <span class="detail">イベントカレンダー、時間帯進捗表（西／東）、フクウロ各店の売上進捗表、オシャレボ買取数値管理、POS登録帳簿。</span>
+        <span class="size">イベントカレンダーだけで114タブ</span>
+      </div>
+    </div>
+
+    <p class="note-strong">
+      <b>データベースに直結している箇所は、ひとつもありませんでした。</b>
+      <code>IMPORTDATA</code> / <code>IMPORTXML</code> / コネクテッドシート / 名前付き範囲による外部取得は
+      全ファイルで検出ゼロ。基幹システムの数字がこの仕組みに入る唯一の経路は、<b>人が入力するか、貼り付けるか</b>です。
+    </p>
+
+    <h3>KPIごとの源流</h3>
+    <div class="kpi-wrap">
+      <table class="kpi">
+        <thead><tr><th>KPI・指標</th><th>たどり着く先</th><th>入り方</th></tr></thead>
+        <tbody>
+          <tr><td>売上・原価・粗利・販管費・営業利益（月次PL）</td><td>PL管理シート 店舗列 AD〜BU</td><td><span class="way h">手入力</span></td></tr>
+          <tr><td>承認金額・承認点数</td><td>PL管理シート R297 / R312</td><td><span class="way h">手入力</span></td></tr>
+          <tr><td>ネット売上の日次実績・月末着地</td><td>ネット管理 日別ブロック（VGP／SHOP × 今期／前年）</td><td><span class="way p">貼り付け</span></td></tr>
+          <tr><td>買取金額・買取点数</td><td>VGP フクウロ買取貼付（27,493行）／ PL管理 KPI②③</td><td><span class="way p">貼り付け</span> <span class="way h">手入力</span></td></tr>
+          <tr><td>棚（在庫）金額・点数・回転率</td><td>VGP 棚データ貼付（1001×1632）</td><td><span class="way p">貼り付け</span></td></tr>
+          <tr><td>予算・ロール目標・デッド目標</td><td>予算シュミレーション ／ 予実管理表サマリ「予算」タブ</td><td><span class="way t">人が置く</span></td></tr>
+          <tr><td>イベント数（モール施策）</td><td>イベントカレンダー（2018年01月〜の114タブ）</td><td><span class="way h">手入力</span></td></tr>
+          <tr><td>時間帯別の進捗</td><td>時間帯進捗表（西／東）</td><td><span class="way h">手入力</span></td></tr>
+          <tr><td>POS登録</td><td>POS登録帳簿（25タブ）</td><td><span class="way h">手入力</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>この構造が意味すること</h3>
+    <p class="a" style="margin-bottom:0">
+      数式は取得できた8ファイルだけで <b>902,583本</b>ありますが、<b>そのすべては「加工」であって元データではありません</b>。
+      同じ数字が下流へ配送される作りなので、<b>元を直せば全体に伝播する</b>一方、
+      <b>入口で間違えれば全部が間違います</b>。
+      とくにPL管理シートには <code>=1004+795</code> のようにセル参照を一切含まない合成式が501セルあり、
+      これは<b>スプレッドシートの外に元資料が存在する</b>ことの痕跡です。
+      数字の裏取りが必要になったときの調査は、まずこの入口4つに当たることになります。
+    </p>
+  </section>
 
   <div class="hint">
     <b>ノードにマウスを乗せる</b>と、そのファイルに出入りする矢印だけが残ります。クリックで固定、もう一度クリックで解除。
